@@ -40,6 +40,8 @@ fn main() -> Result<(),Box<dyn error::Error>> {
         size_map.entry(size).or_default().push(entry);
     }
 
+    size_map.retain(|_, v| v.len() > 1);
+
     eprintln!("Walked {}ms", Instant::elapsed(&t0).as_millis());
     // second pass: for the same-sized files, calc their hashes.
     let all_possible_dups: Vec<&String> = size_map.values().flatten().collect();
